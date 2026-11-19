@@ -143,7 +143,8 @@ function addTab(fields: Partial<DocTab> & { savedText: string }): DocTab {
 function refreshChrome() {
   const a = active();
   lastDirty = isDirty(a);
-  void api.setTitle(`${lastDirty ? '• ' : ''}${title(a)} — ThetaMark by ThetaPlex`);
+  // The window follows document.title; it is also the exported PDF's Title.
+  document.title = `${lastDirty ? '• ' : ''}${title(a)}`;
   tabsEl.replaceChildren(
     ...tabs.map((t) => {
       const b = document.createElement('div');
@@ -340,11 +341,18 @@ async function exportPdf() {
     }
   }
   await renderNow();
+  // Default to <document folder>/<document name>.pdf.
   const name = `${title(t).replace(/\.[^.]+$/, '')}.pdf`;
+  document.title = title(t);
   try {
-    await api.exportPdf(pageSel.value as PageSize, name);
+    await api.exportPdf(
+      pageSel.value as PageSize,
+      t.path ? t.path.slice(0, -title(t).length) + name : name,
+    );
   } catch (e) {
     await api.ask("Couldn't export PDF", errText(e), ['OK']);
+  } finally {
+    refreshChrome();
   }
 }
 

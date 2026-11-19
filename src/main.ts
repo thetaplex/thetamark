@@ -163,7 +163,6 @@ ipcMain.handle('add-recent', async (_e, p) => {
   recent = await addRecent(recent, str(p));
   refreshMenu();
 });
-ipcMain.handle('set-title', (e, t) => owner(e).setTitle(str(t)));
 ipcMain.handle('confirm-close', (e) => {
   allowClose = true;
   if (quitAfterClose) app.quit();

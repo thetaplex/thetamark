@@ -26,7 +26,6 @@ export interface Api {
   ask(message: string, detail: string, buttons: string[]): Promise<number>;
   openExternal(url: string): Promise<void>;
   addRecent(path: string): Promise<void>;
-  setTitle(title: string): Promise<void>;
   confirmClose(): Promise<void>;
   onMenu(cb: (cmd: MenuCommand) => void): void;
   onOpenPath(cb: (path: string) => void): void;

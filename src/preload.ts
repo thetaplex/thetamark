@@ -15,7 +15,6 @@ const api: Api = {
   ask: (message, detail, buttons) => ipcRenderer.invoke('ask', message, detail, buttons),
   openExternal: (url) => ipcRenderer.invoke('open-external', url),
   addRecent: (p) => ipcRenderer.invoke('add-recent', p),
-  setTitle: (t) => ipcRenderer.invoke('set-title', t),
   confirmClose: () => ipcRenderer.invoke('confirm-close'),
   onMenu: on('menu'),
   onOpenPath: on('open-path'),

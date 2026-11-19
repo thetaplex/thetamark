@@ -24,9 +24,12 @@ const menu = (id: string) =>
 const stubDialogs = (savePath: string, response: number) =>
   app.evaluate(
     ({ dialog }, { savePath, response }) => {
-      const g = globalThis as unknown as { asked: string[] };
+      const g = globalThis as unknown as { asked: string[]; saveDefault: string };
       g.asked = [];
-      dialog.showSaveDialog = (async () => ({ canceled: false, filePath: savePath })) as never;
+      dialog.showSaveDialog = (async (_w: unknown, o: { defaultPath: string }) => {
+        g.saveDefault = o.defaultPath;
+        return { canceled: false, filePath: savePath };
+      }) as never;
       dialog.showMessageBox = (async (_w: unknown, o: { message: string }) => {
         g.asked.push(o.message);
         return { response, checkboxChecked: false };
@@ -35,6 +38,10 @@ const stubDialogs = (savePath: string, response: number) =>
     { savePath, response },
   );
 const asked = () => app.evaluate(() => (globalThis as unknown as { asked: string[] }).asked);
+const saveDefault = () =>
+  app.evaluate(() => (globalThis as unknown as { saveDefault: string }).saveDefault);
+const winTitle = () =>
+  app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]?.getTitle());
 
 test.beforeEach(async () => {
   dir = await mkdtemp(join(tmpdir(), 'thetamark-e2e-'));
@@ -59,10 +66,12 @@ test('opens, renders GFM, edits and saves with CRLF preserved', async () => {
   await expect(page.locator('#preview table')).toBeVisible();
   await typeAtEnd('\nmore');
   await expect(page.locator('.tab[aria-selected="true"]')).toContainText('● notes.md');
+  await expect.poll(winTitle).toBe('• notes.md');
   await menu('save');
   await expect.poll(() => readFile(doc, 'utf8')).toContain('| 1 | 2 |\r\n\r\nmore');
   expect(await readFile(doc, 'utf8')).not.toMatch(/[^\r]\n/);
   await expect(page.locator('.tab[aria-selected="true"]')).not.toContainText('●');
+  await expect.poll(winTitle).toBe('notes.md');
 });
 
 test('flavor switch changes rendering; extended renders math and mermaid', async () => {
@@ -74,13 +83,19 @@ test('flavor switch changes rendering; extended renders math and mermaid', async
   await expect(page.locator('#preview .mermaid svg')).toBeVisible();
 });
 
-test('exports a PDF', async () => {
+test('exports a PDF next to the document, titled with the document name', async () => {
   const pdf = join(dir, 'notes.pdf');
   await stubDialogs(pdf, 0);
+  await typeAtEnd('x'); // dirty marker must not leak into the PDF title
   await menu('export-pdf');
   await expect
     .poll(async () => (await readFile(pdf).catch(() => Buffer.alloc(0))).subarray(0, 4).toString())
     .toBe('%PDF');
+  expect(await saveDefault()).toBe(pdf);
+  expect((await readFile(pdf)).toString('latin1')).toMatch(
+    /\/Title \((\xFE\xFF)?(\x00)?n(\x00)?o(\x00)?t(\x00)?e(\x00)?s(\x00)?\.(\x00)?m(\x00)?d\)/,
+  );
+  await expect.poll(winTitle).toBe('• notes.md');
 });
 
 test('closing a dirty tab prompts and Cancel keeps it', async () => {
