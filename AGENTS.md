@@ -9,3 +9,5 @@
 - **Code (ponytail):** the simplest thing that works. Reuse what's already in the repo, the stdlib or the platform before adding code or dependencies. No abstractions nobody asked for.
 - **Shell (rtk):** if commands aren't rewritten automatically, prefix noisy ones with `rtk` (e.g. `rtk git status`, `rtk cargo test`).
 <!-- agent-stack:end -->
+
+These tools are optional. If one isn't installed, follow its intent: propose before coding, test first, keep it simple. Get the `/opsx` commands with `openspec init` (see CONTRIBUTING.md).
