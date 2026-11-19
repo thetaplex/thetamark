@@ -11,11 +11,11 @@ const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
     name: 'ThetaMark',
-    executableName: 'thetamark',
+    // macOS shows this as the app's display name; elsewhere keep a lowercase binary name.
+    executableName: process.platform === 'darwin' ? 'ThetaMark' : 'thetamark',
     appBundleId: 'dev.thetaplex.thetamark',
     // macOS "Open With" for Markdown files.
     extendInfo: {
-      CFBundleDisplayName: 'ThetaMark',
       CFBundleDocumentTypes: [
         {
           CFBundleTypeName: 'Markdown document',
