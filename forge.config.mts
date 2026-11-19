@@ -1,3 +1,5 @@
+import { execFileSync } from 'node:child_process';
+import { join } from 'node:path';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
 import { MakerDeb } from '@electron-forge/maker-deb';
 import { MakerDMG } from '@electron-forge/maker-dmg';
@@ -28,6 +30,17 @@ const config: ForgeConfig = {
     },
   },
   rebuildConfig: {},
+  hooks: {
+    // Packaging edits Info.plist and flips fuses after Electron's ad-hoc signature, which
+    // invalidates it: macOS then calls the download "damaged". Re-sign the whole bundle ad hoc.
+    // ponytail: ad hoc still needs "Open Anyway" once; Developer ID + notarization removes that.
+    postPackage: async (_config, { platform, outputPaths }) => {
+      if (platform !== 'darwin') return;
+      for (const dir of outputPaths) {
+        execFileSync('codesign', ['--force', '--deep', '--sign', '-', join(dir, 'ThetaMark.app')]);
+      }
+    },
+  },
   makers: [
     new MakerSquirrel({ authors: 'ThetaPlex', description: 'ThetaMark by ThetaPlex' }),
     new MakerDMG({}),
