@@ -80,6 +80,10 @@ function createWindow() {
     ready = true;
     for (const p of pending.splice(0)) wc.send('open-path', p);
   });
+  // A dead renderer can't answer close-request; don't trap the user.
+  wc.on('render-process-gone', () => {
+    allowClose = true;
+  });
   win.on('focus', () => ready && wc.send('focus'));
   win.on('close', (e) => {
     if (allowClose) return;
