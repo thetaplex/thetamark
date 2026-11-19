@@ -20,7 +20,7 @@ One small, fast tool for your own notes and docs that renders the Markdown you a
 
 ## Install
 
-Download the installer for your OS from the CI build artifacts (`.dmg`/`.zip` for macOS, Squirrel `.exe` for Windows, `.deb`/`.zip` for Linux). Builds are unsigned, so macOS and Windows will warn on first launch.
+Download the installer for your OS from [Releases](https://github.com/thetaplex/thetamark/releases/latest) (`.dmg`/`.zip` for macOS, Squirrel `.exe` for Windows, `.deb`/`.zip` for Linux). Builds are unsigned, so macOS and Windows will warn on first launch.
 
 ## Build from source
 
