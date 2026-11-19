@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https: http: thetamark-file:; font-src 'self' data:; connect-src 'self' ws://localhost:*; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>thetamark</title>
+  </head>
+  <body data-view="split">
+    <div id="tabs" role="tablist" aria-label="Open documents"></div>
+    <header id="toolbar">
+      <button type="button" data-cmd="new" title="New tab">New</button>
+      <button type="button" data-cmd="open" title="Open file">Open</button>
+      <button type="button" data-cmd="save" title="Save">Save</button>
+      <span class="sep"></span>
+      <div class="group">
+        <button type="button" data-cmd="view-editor" aria-label="Editor only" title="Editor only">Editor</button>
+        <button type="button" data-cmd="view-split" aria-label="Split view" title="Split">Split</button>
+        <button type="button" data-cmd="view-preview" aria-label="Preview only" title="Preview only">Preview</button>
+      </div>
+      <span class="sep"></span>
+      <label>Flavor
+        <select id="flavor">
+          <option value="commonmark">CommonMark</option>
+          <option value="gfm">GitHub (GFM)</option>
+          <option value="extended">Extended</option>
+        </select>
+      </label>
+      <span class="spacer"></span>
+      <label>Page
+        <select id="page-size">
+          <option value="A4">A4</option>
+          <option value="Letter">Letter</option>
+        </select>
+      </label>
+      <button type="button" data-cmd="export-pdf" title="Export PDF">Export PDF</button>
+    </header>
+    <main id="panes">
+      <section id="editor" aria-label="Markdown source"></section>
+      <article id="preview" class="markdown-body" aria-label="Preview"></article>
+    </main>
+    <script type="module" src="/src/renderer.ts"></script>
+  </body>
+</html>
