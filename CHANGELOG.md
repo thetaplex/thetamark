@@ -4,6 +4,12 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-19
+
+### Fixed
+
+- macOS no longer reports the downloaded app as "damaged": the packaged app is re-signed (ad hoc) after packaging changes it.
+
 ## [0.1.1] - 2026-11-19
 
 ### Added
@@ -18,6 +24,7 @@ All notable changes to this project are documented here. The format follows [Kee
 - Apache-2.0 license, NOTICE and Dependabot configuration.
 - `.gitattributes` forcing LF, so `just check` passes on Windows.
 
-[Unreleased]: https://github.com/thetaplex/thetamark/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/thetaplex/thetamark/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/thetaplex/thetamark/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/thetaplex/thetamark/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/thetaplex/thetamark/releases/tag/v0.1.0
