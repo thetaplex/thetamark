@@ -1,0 +1,2 @@
+# LF everywhere, so Biome passes on Windows checkouts (core.autocrlf=true).
+* text=auto eol=lf
