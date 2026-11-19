@@ -11,7 +11,7 @@ import {
 import { languages } from '@codemirror/language-data';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { Compartment, EditorState } from '@codemirror/state';
-import { oneDark } from '@codemirror/theme-one-dark';
+import { oneDarkHighlightStyle } from '@codemirror/theme-one-dark';
 import {
   drawSelection,
   EditorView,
@@ -66,7 +66,25 @@ const dirname = (p: string) => p.replace(/[\\/][^\\/]*$/, '') || '/';
 // --- editor ---
 const dark = matchMedia('(prefers-color-scheme: dark)');
 const theme = new Compartment();
-const themeFor = () => (dark.matches ? oneDark : syntaxHighlighting(defaultHighlightStyle));
+// Colours come from the CSS palette (styles.css); only token colours differ by mode.
+const palette = EditorView.theme({
+  '&': { backgroundColor: 'var(--surface)', color: 'var(--fg)' },
+  '.cm-content': { caretColor: 'var(--accent)' },
+  '.cm-cursor': { borderLeftColor: 'var(--accent)' },
+  '.cm-gutters': {
+    backgroundColor: 'var(--bg)',
+    color: 'var(--muted)',
+    borderRight: '1px solid var(--border)',
+  },
+  '.cm-activeLine, .cm-activeLineGutter': { backgroundColor: 'var(--active-line)' },
+  '.cm-selectionBackground, &.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground':
+    { backgroundColor: 'var(--selection)' },
+  '.cm-selectionMatch': { backgroundColor: 'var(--selection)' },
+});
+const themeFor = () => [
+  palette,
+  syntaxHighlighting(dark.matches ? oneDarkHighlightStyle : defaultHighlightStyle),
+];
 let lastDirty = false;
 const extensions = [
   lineNumbers(),
@@ -173,7 +191,19 @@ async function renderNow() {
   const blocks = [...preview.querySelectorAll('pre > code.language-mermaid')];
   if (t.flavor !== 'extended' || blocks.length === 0) return;
   const { default: mermaid } = await import('mermaid');
-  mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'default' });
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: 'strict',
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#faf7f1',
+      primaryBorderColor: '#cd8e33',
+      primaryTextColor: '#1a1612',
+      lineColor: '#7a6e5c',
+      secondaryColor: '#eee8de',
+      tertiaryColor: '#ffffff',
+    },
+  });
   for (const code of blocks) {
     const src = code.textContent ?? '';
     let svg = mermaidCache.get(src);
