@@ -24,8 +24,17 @@ check: lint
     just test
 
 # Run the app in development mode
-run:
+run: dev-name
     pnpm exec electron-forge start
+
+# macOS takes the menu-bar/Dock name from the bundle; rename dev Electron.app to ThetaMark
+[private]
+dev-name:
+    #!/usr/bin/env sh
+    plist=node_modules/electron/dist/Electron.app/Contents/Info.plist
+    [ "$(uname)" = Darwin ] && [ -f "$plist" ] || exit 0
+    /usr/libexec/PlistBuddy -c "Set :CFBundleName ThetaMark" -c "Set :CFBundleDisplayName ThetaMark" "$plist"
+    touch node_modules/electron/dist/Electron.app
 
 # Build the app and run the end-to-end tests against it
 e2e:

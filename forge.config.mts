@@ -15,6 +15,7 @@ const config: ForgeConfig = {
     appBundleId: 'dev.thetaplex.thetamark',
     // macOS "Open With" for Markdown files.
     extendInfo: {
+      CFBundleDisplayName: 'ThetaMark',
       CFBundleDocumentTypes: [
         {
           CFBundleTypeName: 'Markdown document',
