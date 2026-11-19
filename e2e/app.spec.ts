@@ -92,9 +92,7 @@ test('exports a PDF next to the document, titled with the document name', async 
     .poll(async () => (await readFile(pdf).catch(() => Buffer.alloc(0))).subarray(0, 4).toString())
     .toBe('%PDF');
   expect(await saveDefault()).toBe(pdf);
-  expect((await readFile(pdf)).toString('latin1')).toMatch(
-    /\/Title \((\xFE\xFF)?(\x00)?n(\x00)?o(\x00)?t(\x00)?e(\x00)?s(\x00)?\.(\x00)?m(\x00)?d\)/,
-  );
+  expect((await readFile(pdf)).toString('latin1')).toContain('/Title (notes.md)');
   await expect.poll(winTitle).toBe('• notes.md');
 });
 
