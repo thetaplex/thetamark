@@ -10,7 +10,7 @@ import type { ForgeConfig } from '@electron-forge/shared-types';
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    name: 'thetamark',
+    name: 'ThetaMark',
     executableName: 'thetamark',
     appBundleId: 'dev.thetaplex.thetamark',
     // macOS "Open With" for Markdown files.
@@ -28,7 +28,7 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [
-    new MakerSquirrel({}),
+    new MakerSquirrel({ authors: 'ThetaPlex', description: 'ThetaMark by ThetaPlex' }),
     new MakerDMG({}),
     new MakerZIP({}, ['darwin', 'linux']),
     new MakerDeb({ options: { mimeType: ['text/markdown'], categories: ['Office', 'Utility'] } }),

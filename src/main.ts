@@ -65,7 +65,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
-    title: 'thetamark',
+    title: 'ThetaMark by ThetaPlex',
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,

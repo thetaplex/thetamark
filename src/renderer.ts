@@ -143,7 +143,7 @@ function addTab(fields: Partial<DocTab> & { savedText: string }): DocTab {
 function refreshChrome() {
   const a = active();
   lastDirty = isDirty(a);
-  void api.setTitle(`${lastDirty ? '• ' : ''}${title(a)} — thetamark`);
+  void api.setTitle(`${lastDirty ? '• ' : ''}${title(a)} — ThetaMark by ThetaPlex`);
   tabsEl.replaceChildren(
     ...tabs.map((t) => {
       const b = document.createElement('div');

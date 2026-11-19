@@ -1,4 +1,4 @@
-# thetamark
+# ThetaMark by ThetaPlex
 
 [![CI](https://github.com/haraprasadj/thetamark/actions/workflows/ci.yml/badge.svg)](https://github.com/haraprasadj/thetamark/actions/workflows/ci.yml)
 
