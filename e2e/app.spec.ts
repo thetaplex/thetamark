@@ -53,7 +53,8 @@ test.beforeEach(async () => {
 });
 
 test.afterEach(async () => {
-  if (app.process().exitCode === null) await app.evaluate(({ app }) => app.exit(0)).catch(() => {});
+  // No app.process() check: on Windows the handle is already disposed once the app has quit.
+  await app.evaluate(({ app }) => app.exit(0)).catch(() => {});
 });
 
 async function typeAtEnd(text: string) {
