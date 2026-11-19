@@ -9,3 +9,10 @@ playwright-report/
 .env.*
 .DS_Store
 .serena/
+Thumbs.db
+.idea/
+
+# AI-tool folders: generated per contributor by `openspec init`
+.claude/
+.opencode/
+.pi/

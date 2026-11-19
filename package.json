@@ -5,7 +5,7 @@
   "private": true,
   "description": "Desktop Markdown editor with live preview and PDF export",
   "keywords": [],
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "author": {
     "name": "haraprasadj",
     "email": "5363831+haraprasadj@users.noreply.github.com"

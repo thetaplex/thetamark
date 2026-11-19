@@ -1,6 +1,6 @@
 # ThetaMark by ThetaPlex
 
-[![CI](https://github.com/haraprasadj/thetamark/actions/workflows/ci.yml/badge.svg)](https://github.com/haraprasadj/thetamark/actions/workflows/ci.yml)
+[![CI](https://github.com/thetaplex/thetamark/actions/workflows/ci.yml/badge.svg)](https://github.com/thetaplex/thetamark/actions/workflows/ci.yml)
 
 A desktop Markdown editor for macOS, Linux and Windows: edit with a live side-by-side preview, switch between Markdown flavors, save back to disk, and export to PDF.
 
@@ -57,4 +57,4 @@ just make     # build installers for this OS into out/make
 
 ## License
 
-Not yet licensed; all rights reserved until a license is chosen.
+[Apache-2.0](LICENSE). See [NOTICE](NOTICE).
