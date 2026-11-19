@@ -53,7 +53,7 @@ test.beforeEach(async () => {
 });
 
 test.afterEach(async () => {
-  await app.evaluate(({ app }) => app.exit(0));
+  if (app.process().exitCode === null) await app.evaluate(({ app }) => app.exit(0)).catch(() => {});
 });
 
 async function typeAtEnd(text: string) {
@@ -149,4 +149,10 @@ test('relative images load from the file directory without CSP errors', async ()
   await expect(img).toHaveAttribute('src', /^thetamark-file:/);
   await expect.poll(() => img.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBe(1);
   expect(errors).toEqual([]);
+});
+
+test('closing the window quits the app (all platforms)', async () => {
+  const exited = new Promise<void>((resolve) => app.process().once('exit', () => resolve()));
+  await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]?.close());
+  await exited; // afterEach's app.exit on a dead app is tolerated below
 });

@@ -194,11 +194,7 @@ else {
     recent = await loadRecent();
     refreshMenu();
     createWindow();
-    app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) createWindow();
-    });
   });
-  app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit();
-  });
+  // One window holds every tab, so closing it ends the app on every OS (macOS included).
+  app.on('window-all-closed', () => app.quit());
 }
