@@ -16,6 +16,8 @@ const config: ForgeConfig = {
     // macOS shows this as the app's display name; elsewhere keep a lowercase binary name.
     executableName: process.platform === 'darwin' ? 'ThetaMark' : 'thetamark',
     appBundleId: 'dev.thetaplex.thetamark',
+    // From the ThetaPlex icon family (thetaplex/www ADR 0003); the extension is per platform.
+    icon: 'assets/icon',
     // macOS "Open With" for Markdown files.
     extendInfo: {
       CFBundleDocumentTypes: [
@@ -42,10 +44,20 @@ const config: ForgeConfig = {
     },
   },
   makers: [
-    new MakerSquirrel({ authors: 'ThetaPlex', description: 'ThetaMark by ThetaPlex' }),
+    new MakerSquirrel({
+      authors: 'ThetaPlex',
+      description: 'ThetaMark by ThetaPlex',
+      setupIcon: 'assets/icon.ico',
+    }),
     new MakerDMG({}),
     new MakerZIP({}, ['darwin', 'linux']),
-    new MakerDeb({ options: { mimeType: ['text/markdown'], categories: ['Office', 'Utility'] } }),
+    new MakerDeb({
+      options: {
+        icon: 'assets/icon.png',
+        mimeType: ['text/markdown'],
+        categories: ['Office', 'Utility'],
+      },
+    }),
   ],
   plugins: [
     new VitePlugin({
