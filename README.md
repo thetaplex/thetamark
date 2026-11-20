@@ -34,11 +34,10 @@ just run     # start the app in development mode
 ## Usage
 
 ```sh
-just run                 # open an empty tab
-thetamark notes.md       # installed app: open a file from the command line
+just run    # open an empty tab
 ```
 
-Or use **File ▸ Open**, drag the app onto a file via "Open With", or pick from **File ▸ Open Recent**. **File ▸ Export PDF** (<kbd>Ctrl/Cmd</kbd>+<kbd>P</kbd>) writes the preview to a PDF using the page size picked in the toolbar.
+Open a file with **File ▸ Open** or **File ▸ Open Recent**, or right-click a `.md` file in your file manager and choose "Open With". **File ▸ Export PDF** (<kbd>Ctrl/Cmd</kbd>+<kbd>P</kbd>) writes the preview to a PDF using the page size picked in the toolbar.
 
 ## Development
 
