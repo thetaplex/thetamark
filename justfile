@@ -44,3 +44,18 @@ e2e:
 # Build installers for this OS into out/make
 make:
     pnpm exec electron-forge make
+
+# Tag main with package.json's version and push the tag; CI builds and publishes the release
+release:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    tag=v$(node -p "require('./package.json').version")
+    git fetch -q --tags origin main
+    [ "$(git branch --show-current)" = main ] || { echo "release from main" >&2; exit 1; }
+    git diff --quiet HEAD || { echo "commit or stash local changes first" >&2; exit 1; }
+    [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] || { echo "main is not origin/main: pull or push first" >&2; exit 1; }
+    git rev-parse -q --verify "refs/tags/$tag" >/dev/null && { echo "$tag already exists: bump the version first" >&2; exit 1; }
+    grep -q "^## \[${tag#v}\]" CHANGELOG.md || { echo "CHANGELOG.md has no ## [${tag#v}] section" >&2; exit 1; }
+    git tag "$tag"
+    git push origin "$tag"
+    echo "pushed $tag; CI publishes the release"
